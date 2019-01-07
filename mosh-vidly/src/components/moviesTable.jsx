@@ -1,48 +1,46 @@
 import React, { Component } from "react";
 import Like from "./common/like";
+import Table from "./common/table";
 
-const MoviesTable = props => {
-  const { movies, onDelete, onLike, currentPage, pageSize } = props;
+class MoviesTable extends Component {
+  columns = [
+    { key: "indexColumn", label: "#" },
+    { path: "title", label: "Title" },
+    { path: "genre.name", label: "Genre" },
+    { path: "numberInStock", label: "Stock" },
+    { path: "dailyRentalRate", label: "Rate" },
+    {
+      key: "like",
+      content: movie => (
+        <Like liked={movie.liked} onClick={() => this.props.onLike(movie)} />
+      )
+    },
+    {
+      key: "delete",
+      content: movie => (
+        <button
+          onClick={() => this.props.onDelete(movie)}
+          className="btn btn-danger btn-sm"
+        >
+          Delete
+        </button>
+      )
+    }
+  ];
 
-  return (
-    <table className="table">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Title</th>
-          <th>Genre</th>
-          <th>Stock</th>
-          <th>Rate</th>
-          <th />
-          <th />
-        </tr>
-      </thead>
-      <tbody>
-        {movies.map((m, index) => (
-          <tr key={m._id}>
-            <td>
-              <b>{(currentPage - 1) * pageSize + index + 1}</b>
-            </td>
-            <td>{m.title}</td>
-            <td>{m.genre.name}</td>
-            <td>{m.numberInStock}</td>
-            <td>{m.dailyRentalRate}</td>
-            <td>
-              <Like liked={m.liked} onClick={() => onLike(m)} />
-            </td>
-            <td>
-              <button
-                onClick={() => onDelete(m)}
-                className="btn btn-danger btn-sm"
-              >
-                Delete
-              </button>
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  );
-};
+  render() {
+    const { movies, sortColumn, onSort, currentPage, pageSize } = this.props;
+    return (
+      <Table
+        columns={this.columns}
+        data={movies}
+        sortColumn={sortColumn}
+        onSort={onSort}
+        currentPage={currentPage}
+        pageSize={pageSize}
+      />
+    );
+  }
+}
 
 export default MoviesTable;
