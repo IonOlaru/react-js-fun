@@ -1,5 +1,10 @@
 import React, { Component } from "react";
 class LoginForm extends Component {
+  handleSubmit = e => {
+    e.preventDefault();
+    console.log("Submitted.");
+  };
+
   render() {
     return (
       <div>
@@ -7,7 +12,7 @@ class LoginForm extends Component {
           <div className="col-3" />
           <div className="col-6">
             <h1>Login</h1>
-            <form>
+            <form onSubmit={this.handleSubmit}>
               <div className="form-group">
                 <label htmlFor="username">User</label>
                 <input id="username" type="text" className="form-control" />
