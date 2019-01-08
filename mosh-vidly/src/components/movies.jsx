@@ -76,6 +76,10 @@ class Movies extends Component {
     return { totalCount: sortedAndFilteredMovies, data: movies };
   };
 
+  handleNewMovie = () => {
+    this.props.history.push("/movies/new");
+  };
+
   render() {
     const { length: count } = this.state.movies;
     const { pageSize, currentPage } = this.state;
@@ -94,6 +98,8 @@ class Movies extends Component {
           />
         </div>
         <div className="col">
+          { /* prettier-ignore */ }
+          <button className="btn btn-primary" onClick={this.handleNewMovie}>New movie...</button>
           <h2>Showing {totalCount.length} movies in the database</h2>
 
           <MoviesTable

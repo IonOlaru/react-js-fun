@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 const Input = ({ name, label, error, ...restOfProps }) => {
   return (
     <div className="form-group">

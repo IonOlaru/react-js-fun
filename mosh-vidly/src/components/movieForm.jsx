@@ -1,21 +1,42 @@
-import React, { ReactFragment, Component } from "react";
+import React from "react";
+import Form from "./common/form";
 
-const MovieForm = ({ match, history }) => {
-  return (
-    <React.Fragment>
-      <h1>MovieForm</h1>
-      <div>
-        {match.params.id}
-        <br />
-        <button
-          className="btn btn-primary"
-          onClick={() => history.push("/movies")}
-        >
-          Save
-        </button>
-      </div>
-    </React.Fragment>
-  );
-};
+class MovieForm extends Form {
+  state = {
+    data: {},
+    errors: {}
+  };
+
+  schema = {};
+
+  componentDidMount() {
+    console.log(this);
+  }
+
+  doSubmit() {
+    this.props.history.push("/movies");
+  }
+
+  render() {
+    const { match, newMovie } = this.props;
+    return (
+      <React.Fragment>
+        <h1>MovieForm</h1>
+        <div>
+          <i>{newMovie === "true" ? "New" : match.params.id}</i>
+          <br />
+          { /* prettier-ignore */ }
+          <form onSubmit={this.handleSubmit}>
+              { /* prettier-ignore */ }
+              {this.renderInput("title", "Title")}
+              {this.renderInput("numberInStock", "Number in Stock")}
+              {this.renderInput("rate", "Rate")}
+              {this.renderButton("Save")}
+            </form>
+        </div>
+      </React.Fragment>
+    );
+  }
+}
 
 export default MovieForm;
