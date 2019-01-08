@@ -91,7 +91,8 @@ class LoginForm extends Component {
               <Input name="username" value={account.username} label="Username" onChange={this.handleChange} error={errors.username} />
               { /* prettier-ignore */ }
               <Input name="password" value={account.password} label="Password" onChange={this.handleChange} error={errors.password} />
-              <button className="btn btn-primary">Login</button>
+              {/* prettier-ignore  */}
+              <button disabled={Object.keys(this.validate()).length > 0} className="btn btn-primary">Login</button>
             </form>
           </div>
           <div className="col-3" />
