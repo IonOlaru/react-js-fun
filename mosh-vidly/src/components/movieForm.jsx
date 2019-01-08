@@ -32,7 +32,13 @@ class MovieForm extends Form {
               {this.renderInput("numberInStock", "Number in Stock")}
               {this.renderInput("rate", "Rate")}
               {this.renderButton("Save")}
-            </form>
+              <select className="form-control">
+                  <option value="volvo">Volvo</option>
+                  <option value="saab">Saab</option>
+                  <option value="mercedes">Mercedes</option>
+                  <option value="audi">Audi</option>
+              </select>
+          </form>
         </div>
       </React.Fragment>
     );
