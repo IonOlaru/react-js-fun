@@ -1,0 +1,15 @@
+# Use root/example as user/password credentials
+version: "2"
+
+services:
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    ports:
+      - "27017:27017"
+    volumes:
+      - /home/ion/docker-storage/mongo/data/db:/data/db
+      - /home/ion/docker-storage/mongo/data/configdb:/data/configdb
