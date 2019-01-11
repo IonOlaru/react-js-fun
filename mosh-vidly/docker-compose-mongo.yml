@@ -1,4 +1,5 @@
 # Use root/example as user/password credentials
+# docker pull mongo
 version: "2"
 
 services:
