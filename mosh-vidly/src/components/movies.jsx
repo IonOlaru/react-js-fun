@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { toast } from "react-toastify";
 import Pagination from "./common/pagination";
 import ListGroup from "./common/listGroup";
-import { getMovies, getMovie, deleteMovie } from "../services/movieService";
+import { getMovies, deleteMovie } from "../services/movieService";
 import { paginate } from "../utils/paginate";
 import { getGenres } from "../services/genreService";
 import MoviesTable from "./moviesTable";
@@ -125,8 +125,11 @@ class Movies extends Component {
           />
         </div>
         <div className="col">
-          {user && // prettier-ignore
-          <button className="btn btn-primary" onClick={this.handleNewMovie}>New movie...</button>}
+          {user && ( // prettier-ignore
+            <button className="btn btn-primary" onClick={this.handleNewMovie}>
+              New movie...
+            </button>
+          )}
           <h2>Showing {totalCount.length} movies in the database</h2>
           <SearchBox value={searchQuery} onChange={this.handleSearch} />
           <MoviesTable
