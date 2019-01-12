@@ -1,7 +1,7 @@
 import React from "react";
 import Form from "./common/form";
-import { getGenres } from "../services/fakeGenreService";
-import { getMovie, saveMovie } from "../services/fakeMovieService";
+import { getGenres } from "../services/genreService";
+import { getMovie, saveMovie } from "../services/movieService";
 import Joi from "joi-browser";
 
 class MovieForm extends Form {
@@ -19,24 +19,34 @@ class MovieForm extends Form {
   // prettier-ignore
   schema = {
     _id: Joi.string(),
-    title: Joi.string().required().label("Title"),
+    title: Joi.string().min(5).required().label("Title"),
     genreId: Joi.string().required().label("Genre"),
     numberInStock: Joi.number().integer().min(0).max(100).required().label("Number in Stock"),
     dailyRentalRate: Joi.number().min(0).max(10).required().label("Rate"),
     fake: Joi.string()
   };
 
-  componentDidMount() {
-    const allGenres = getGenres();
+  async populateGenres() {
+    const { data: allGenres } = await getGenres();
     this.setState({ allGenres });
+  }
 
+  async populateMovie() {
     const movieId = this.props.match.params.id;
     if (movieId === "new") return;
 
-    const movie = getMovie(movieId);
-    if (!movie) return this.props.history.replace("/not-found");
+    try {
+      const { data: movie } = await getMovie(movieId);
+      this.setState({ data: this.mapToViewModel(movie) });
+    } catch (ex) {
+      if (ex.response && ex.response.status === 404)
+        return this.props.history.replace("/not-found");
+    }
+  }
 
-    this.setState({ data: this.mapToViewModel(movie) });
+  async componentDidMount() {
+    await this.populateGenres();
+    await this.populateMovie();
   }
 
   mapToViewModel(movie) {
@@ -49,8 +59,8 @@ class MovieForm extends Form {
     };
   }
 
-  doSubmit() {
-    saveMovie(this.state.data);
+  async doSubmit() {
+    await saveMovie(this.state.data);
     this.props.history.push("/movies");
   }
 
@@ -58,7 +68,9 @@ class MovieForm extends Form {
     const { match } = this.props;
     return (
       <React.Fragment>
-        <h1>MovieForm <i>{"id:" + match.params.id}</i></h1>
+        <h1>
+          MovieForm <i>{"id:" + match.params.id}</i>
+        </h1>
         <div>
           { /* prettier-ignore */ }
           <form onSubmit={this.handleSubmit}>
