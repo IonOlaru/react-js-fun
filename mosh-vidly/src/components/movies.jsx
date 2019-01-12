@@ -48,10 +48,8 @@ class Movies extends Component {
     movies[index] = { ...movies[index] };
     movies[index].liked = !movies[index].liked;
     this.setState({ movies });
-    if (movies[index].liked)
-      toast.success("Thank you.", config.toastOptions);
-    else
-      toast.error("I understand.", config.toastOptions);
+    if (movies[index].liked) toast.success("Thank you.", config.toastOptions);
+    else toast.error("I understand.", config.toastOptions);
   };
 
   handlePageChange = page => {
@@ -111,6 +109,7 @@ class Movies extends Component {
   render() {
     const { length: count } = this.state.movies;
     const { pageSize, currentPage, searchQuery } = this.state;
+    const { user } = this.props;
 
     if (count === 0) return <h2>There are no movies in the database.</h2>;
 
@@ -126,8 +125,8 @@ class Movies extends Component {
           />
         </div>
         <div className="col">
-          { /* prettier-ignore */ }
-          <button className="btn btn-primary" onClick={this.handleNewMovie}>New movie...</button>
+          {user && // prettier-ignore
+          <button className="btn btn-primary" onClick={this.handleNewMovie}>New movie...</button>}
           <h2>Showing {totalCount.length} movies in the database</h2>
           <SearchBox value={searchQuery} onChange={this.handleSearch} />
           <MoviesTable
