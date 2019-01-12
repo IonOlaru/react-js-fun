@@ -1,5 +1,6 @@
 import React from "react";
 import Form from "./common/form";
+import auth from "../services/authService";
 import Joi from "joi-browser";
 
 class LoginForm extends Form {
@@ -23,8 +24,19 @@ class LoginForm extends Form {
     // this.username.current.focus();
   }
 
-  doSubmit = () => {
-    console.log("Submitted.");
+  doSubmit = async () => {
+    try {
+      const { data } = this.state;
+      await auth.login(data.username, data.password);
+      // this.props.history.push("/");
+      window.location = "/";
+    } catch (ex) {
+      if (ex.response && ex.response.status === 400) {
+        const errors = { ...this.state.errors };
+        errors.username = ex.response.data;
+        this.setState({ errors });
+      }
+    }
   };
 
   render() {
