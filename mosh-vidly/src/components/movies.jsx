@@ -7,6 +7,7 @@ import { paginate } from "../utils/paginate";
 import { getGenres } from "../services/genreService";
 import MoviesTable from "./moviesTable";
 import SearchBox from "./common/searchBox";
+import config from "../config.json";
 import _ from "lodash";
 
 class Movies extends Component {
@@ -47,6 +48,10 @@ class Movies extends Component {
     movies[index] = { ...movies[index] };
     movies[index].liked = !movies[index].liked;
     this.setState({ movies });
+    if (movies[index].liked)
+      toast.success("Thank you.", config.toastOptions);
+    else
+      toast.error("I understand.", config.toastOptions);
   };
 
   handlePageChange = page => {
