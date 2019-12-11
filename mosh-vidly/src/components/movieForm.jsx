@@ -20,7 +20,7 @@ class MovieForm extends Form {
 
   // prettier-ignore
   schema = {
-    _id: Joi.string(),
+    id: Joi.string(),
     title: Joi.string().min(5).required().label("Title"),
     genreId: Joi.string().required().label("Genre"),
     numberInStock: Joi.number().integer().min(0).max(100).required().label("Number in Stock"),
@@ -53,9 +53,9 @@ class MovieForm extends Form {
 
   mapToViewModel(movie) {
     return {
-      _id: movie._id,
+      id: movie.id,
       title: movie.title,
-      genreId: movie.genre._id,
+      genreId: movie.genre.id,
       numberInStock: movie.numberInStock,
       dailyRentalRate: movie.dailyRentalRate
     };

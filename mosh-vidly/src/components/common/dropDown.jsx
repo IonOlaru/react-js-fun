@@ -36,7 +36,7 @@ const DropDown = props => {
 
 DropDown.defaultProps = {
   textProperty: "name",
-  valueProperty: "_id"
+  valueProperty: "id"
 };
 
 export default DropDown;

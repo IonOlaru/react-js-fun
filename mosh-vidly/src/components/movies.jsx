@@ -23,17 +23,17 @@ class Movies extends Component {
 
   async componentDidMount() {
     const { data } = await getGenres();
-    const genres = [{ _id: "", name: "All genres" }, ...data];
+    const genres = [{ id: "", name: "All genres" }, ...data];
     const { data: movies } = await getMovies();
     this.setState({ movies, genres });
   }
 
   handleDelete = async movie => {
     const originalMovies = this.state.movies;
-    const movies = originalMovies.filter(m => m._id !== movie._id);
+    const movies = originalMovies.filter(m => m.id !== movie.id);
     this.setState({ movies });
     try {
-      await deleteMovie(movie._id);
+      await deleteMovie(movie.id);
     } catch (ex) {
       if (ex.response && ex.response.status === 404) {
         toast.error("This movies has already been deleted.");
@@ -87,8 +87,8 @@ class Movies extends Component {
       filteredMovies = allMovies.filter(m =>
         m.title.toLowerCase().startsWith(searchQuery.toLowerCase())
       );
-    } else if (selectedGenre && selectedGenre._id) {
-      filteredMovies = allMovies.filter(m => m.genre._id === selectedGenre._id);
+    } else if (selectedGenre && selectedGenre.id) {
+      filteredMovies = allMovies.filter(m => m.genre.id === selectedGenre.id);
     }
 
     const sortedAndFilteredMovies = _.orderBy(

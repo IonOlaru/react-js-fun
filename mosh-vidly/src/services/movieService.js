@@ -16,10 +16,10 @@ export function getMovie(movieId) {
 }
 
 export function saveMovie(movie) {
-  if (movie._id) {
+  if (movie.id) {
     const body = { ...movie };
-    delete body._id;
-    return http.put(movieUrl(movie._id), body);
+    delete body.id;
+    return http.put(movieUrl(movie.id), body);
   }
   return http.post(apiEndpoint, movie);
 }
